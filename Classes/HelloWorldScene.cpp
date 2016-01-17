@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 
 USING_NS_CC;
+USING_NS_CC_EXT;
 
 Scene* HelloWorld::createScene()
 {
@@ -28,49 +29,44 @@ bool HelloWorld::init()
     }
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
-
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
-
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
+    // TiledMapEditorで生成したマップを表示する
+    TMXTiledMap *map = TMXTiledMap::create("TMX/stage1.tmx");
+    TMXLayer *mapLayer = map->getLayer("layer1");
     
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    // マップのサイズ
+    Size mapSize = Size(map->getTileSize().width  * map->getMapSize().width,
+                        map->getTileSize().height * map->getMapSize().height);
     
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+    // スクロールビュー
+    ScrollView *scrollView = ScrollView::create(mapSize*3);
+    scrollView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    scrollView->setPosition(Vec2(100, 100));
+    scrollView->setMaxScale(5.0f);
+    scrollView->setBounceable(false);
+    scrollView->setContentSize(mapSize*3);
+    this->addChild(scrollView);
+    
+    // 中のレイヤー
+    Layer *innerLayer = Layer::create();
+    scrollView->addChild(innerLayer);
+    
+    // スクロールビューの背景
+    Sprite *sprite = Sprite::create();
+    sprite->setTextureRect(Rect(0, 0, scrollView->getContentSize().width, scrollView->getContentSize().height));
+    sprite->setColor(Color3B(230,230,230));
+    sprite->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    innerLayer->addChild(sprite);
+    
+    // マップを表示
+    map->setScale(3);
+    innerLayer->addChild(map);
+    
+    // キャラクターを表示
+    Sprite *character = Sprite::create("TMX/character.png");
+    character->setAnchorPoint(Vec2(0.5f, 0.25f));
+    character->setPosition(mapLayer->getPositionAt(Vec2(0, 0)) + map->getTileSize()/2);
+    map->addChild(character);
     
     return true;
 }

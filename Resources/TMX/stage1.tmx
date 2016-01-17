@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" renderorder="right-up" width="10" height="10" tilewidth="32" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="map" tilewidth="32" tileheight="16" tilecount="12" columns="6">
+  <image source="map.png" trans="385959" width="192" height="32"/>
+  <tile id="1">
+   <properties>
+    <property name="isCollision" value="0"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="isCollision" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="layer1" width="10" height="10">
+  <data>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="12"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+  </data>
+ </layer>
+</map>
