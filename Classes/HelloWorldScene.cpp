@@ -31,12 +31,12 @@ bool HelloWorld::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     
     // TiledMapEditorで生成したマップを表示する
-    TMXTiledMap *map = TMXTiledMap::create("TMX/stage1.tmx");
-    TMXLayer *mapLayer = map->getLayer("layer1");
+    _map = TMXTiledMap::create("TMX/stage1.tmx");
+    _mapLayer = _map->getLayer("layer1");
     
     // マップのサイズ
-    Size mapSize = Size(map->getTileSize().width  * map->getMapSize().width,
-                        map->getTileSize().height * map->getMapSize().height);
+    Size mapSize = Size(_map->getTileSize().width  * _map->getMapSize().width,
+                        _map->getTileSize().height * _map->getMapSize().height);
     
     // スクロールビュー
     ScrollView *scrollView = ScrollView::create(mapSize*3);
@@ -59,14 +59,22 @@ bool HelloWorld::init()
     innerLayer->addChild(sprite);
     
     // マップを表示
-    map->setScale(3);
-    innerLayer->addChild(map);
+    _map->setScale(3);
+    innerLayer->addChild(_map);
     
     // キャラクターを表示
-    Sprite *character = Sprite::create("TMX/character.png");
-    character->setAnchorPoint(Vec2(0.5f, 0.25f));
-    character->setPosition(mapLayer->getPositionAt(Vec2(0, 0)) + map->getTileSize()/2);
-    map->addChild(character);
+    _character = Sprite::create("TMX/character.png");
+    _character->setAnchorPoint(Vec2(0.5f, 0.25f));
+    _charaPos = Vec2(0, 0);
+    _character->setPosition(_mapLayer->getPositionAt(_charaPos) + _map->getTileSize()/2);
+    _map->addChild(_character);
+    
+    // サイコロボタン
+    _isMoving = false;
+    MenuItemLabel *dice = MenuItemLabel::create(Label::createWithSystemFont("サイコロ", "arial", 30.0f),
+                                                CC_CALLBACK_1(HelloWorld::dice, this));
+    dice->setPosition(Vec2(600, 0));
+    this->addChild(Menu::create(dice, NULL));
     
     return true;
 }
@@ -85,3 +93,36 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     exit(0);
 #endif
 }
+
+
+void HelloWorld::dice(cocos2d::Ref *ref)
+{
+    if (_isMoving) return;
+    
+    unsigned int distance = std::rand() % 6 + 1;
+    this->move(distance);
+}
+
+
+void HelloWorld::move(unsigned int cnt)
+{
+    if (cnt == 0) return;
+    
+    // 移動先の座標を計算
+    if (_charaPos.x == 0 && _charaPos.y < 9)
+        _charaPos = Vec2(0, _charaPos.y+1);
+    else if (_charaPos.x < 9 && _charaPos.y == 9)
+        _charaPos = Vec2(_charaPos.x+1, 9);
+    else if (_charaPos.x == 9 && _charaPos.y > 0)
+        _charaPos = Vec2(9, _charaPos.y-1);
+    else
+        _charaPos = Vec2(_charaPos.x-1, 0);
+    
+    MoveTo *move = MoveTo::create(0.5f, _mapLayer->getPositionAt(_charaPos) + _map->getTileSize()/2);
+    CallFunc *func = CallFunc::create([this, cnt]() {
+        this->move(cnt-1);
+    });
+    
+    _character->runAction(Sequence::create(move, func, NULL));
+}
+
