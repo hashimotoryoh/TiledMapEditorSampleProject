@@ -76,6 +76,12 @@ bool HelloWorld::init()
     dice->setPosition(Vec2(600, 0));
     this->addChild(Menu::create(dice, NULL));
     
+    // サイコロの目
+    Label *pips = Label::createWithSystemFont("-", "arial", 30.0f);
+    pips->setPosition(Vec2(1200, 300));
+    pips->setTag(10);
+    this->addChild(pips);
+    
     return true;
 }
 
@@ -100,6 +106,13 @@ void HelloWorld::dice(cocos2d::Ref *ref)
     if (_isMoving) return;
     
     unsigned int distance = std::rand() % 6 + 1;
+    
+    // サイコロの目を表示
+    Label *pips = dynamic_cast<Label*>(this->getChildByTag(10));
+    std::stringstream strPips;
+    strPips << distance;
+    pips->setString(strPips.str());
+    
     this->move(distance);
 }
 
